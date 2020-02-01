@@ -1,6 +1,6 @@
 
 let obj2;
-
+// получение списка
 fetch('https://rn-todo-app-c27d4.firebaseio.com/todos.json')
   .then(response => myJson = response.json())
   .then(response => {
@@ -16,11 +16,11 @@ for (let i = 0, l = keys.length; i < l; i++) {
   for (let i=0; i<keys.length; i++) {
     arr.push(obj2[keys[i]].title)    
   }
-  // console.log(arr)
 }  
 console.log(arr);
 
-function addList () {
+// формирование списка 
+function addList (arr) {
   html = '<div class="todoListern">';
     arr.forEach(function(item) {
       html +='<div class="todoText">'
@@ -34,13 +34,34 @@ function addList () {
   html += '</div>'
 
 let list = document.querySelector('#list').innerHTML=html;
+
 };
 
-addList ();
+addList(arr);
 
+// add to todo 
   add.addEventListener('click', () => {
     arr.push(addInput.value);
     console.log(arr);
-    addList ();
+    addList (arr);
   });
+
+
+// search  
+let searchInput = document.querySelector('.searchInput');
+
+searchInput.oninput = () => {
+    let myarray=arr;
+    let arr2 = [];
+        for (let i = 0; i < arr.length; i++) {
+        var tr = arr[i].indexOf(searchInput.value) !== -1;
+        
+        if (tr == true) {
+            arr2.push(myarray[i])            
+        }  
+        addList (arr2);      
+    }
+    console.log(arr2)
+    }
+
 });
